@@ -154,7 +154,7 @@ class google_analytics_plugin_query_google_analytics extends views_plugin_query 
       }
     }
     $filters = array();
-  
+   
     if(!empty($this->where)){
       foreach ($this->where as $where_group => $where) {
         foreach ($where['conditions'] as $condition) {
