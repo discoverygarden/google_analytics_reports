@@ -154,8 +154,8 @@ class google_analytics_plugin_query_google_analytics extends views_plugin_query 
       }
     }
     $filters = array();
-  
-    if(!empty($this->where)){
+   
+    if(isset($this->where)){
       foreach ($this->where as $where_group => $where) {
         foreach ($where['conditions'] as $condition) {
           if ($condition['field'] == 'start_date') {
@@ -185,7 +185,7 @@ class google_analytics_plugin_query_google_analytics extends views_plugin_query 
       $glue = ($this->group_operator == 'AND') ? ';' : ',';
       $query['filters'] = implode($glue, $filters);
     }
-    if(!empty($this->orderby)){
+    if(isset($this->orderby)){
       foreach ($this->orderby as $field) {
         $query['sort_metric'][] = $field['direction'] . 'ga:' . $field['field'];
       }
