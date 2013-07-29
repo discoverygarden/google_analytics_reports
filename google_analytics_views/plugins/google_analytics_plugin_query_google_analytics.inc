@@ -226,6 +226,9 @@ class google_analytics_plugin_query_google_analytics extends views_plugin_query 
     $count_query['max_results'] = 9999;
     $count_query['start_index'] = 1;
     $count_feed = google_analytics_api_report_data($count_query);
+    if (!is_null($count_feed->error)) {
+      return;
+    }
     $this->pager->total_items = count($count_feed->results->rows);
     $this->pager->update_page_info();
 
