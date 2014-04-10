@@ -239,7 +239,8 @@ class google_analytics_plugin_query_google_analytics extends views_plugin_query 
     }
 
     $feed = google_analytics_api_report_data($query);
-
+    
+    $views_result = array();
     $rows = $feed->results->rows;
     foreach ($rows as $row) {
       $views_result[] = (object) $row;
