@@ -1,12 +1,17 @@
 <?php
 
 /**
- * Simple filter to handle numerics for Google Analytics
+ * @file
+ * Definition of google_analytics_reports_handler_filter_numeric.
+ */
+
+/**
+ * Simple filter to handle numerics for Google Analytics.
  *
  * @ingroup views_filter_handlers
  */
-class google_analytics_handler_filter_numeric extends views_handler_filter {
-  var $always_multiple = TRUE;
+class google_analytics_reports_handler_filter_numeric extends google_analytics_reports_handler_filter {
+
   function option_definition() {
     $options = parent::option_definition();
 
@@ -64,18 +69,6 @@ class google_analytics_handler_filter_numeric extends views_handler_filter {
     return $operators;
   }
 
-  /**
-   * Provide a list of all the numeric operators
-   */
-  function operator_options($which = 'title') {
-    $options = array();
-    foreach ($this->operators() as $id => $info) {
-      $options[$id] = $info[$which];
-    }
-
-    return $options;
-  }
-
   function operator_values($values = 1) {
     $options = array();
     foreach ($this->operators() as $id => $info) {
@@ -87,7 +80,7 @@ class google_analytics_handler_filter_numeric extends views_handler_filter {
     return $options;
   }
   /**
-   * Provide a simple textfield for equality
+   * Provide a simple textfield for equality.
    */
   function value_form(&$form, &$form_state) {
     $form['value']['#tree'] = TRUE;
@@ -105,7 +98,7 @@ class google_analytics_handler_filter_numeric extends views_handler_filter {
       $identifier = $this->options['expose']['identifier'];
 
       if (empty($this->options['expose']['use_operator']) || empty($this->options['expose']['operator_id'])) {
-        // exposed and locked.
+        // Exposed and locked.
         $which = in_array($this->operator, $this->operator_values(2)) ? 'minmax' : 'value';
       }
       else {
@@ -170,19 +163,11 @@ class google_analytics_handler_filter_numeric extends views_handler_filter {
         // Ensure there is something in the 'value'.
         $form['value'] = array(
           '#type' => 'value',
-          '#value' => NULL
+          '#value' => NULL,
         );
       }
     }
   }
-
-  function query() {
-    $info = $this->operators();
-    if (!empty($info[$this->operator]['method'])) {
-      $this->{$info[$this->operator]['method']}($this->real_field);
-    }
-  }
-
 
   function op_simple($field) {
     $this->query->add_where($this->options['group'], $field, $this->value['value'], $this->operator);
@@ -205,14 +190,14 @@ class google_analytics_handler_filter_numeric extends views_handler_filter {
   }
 
   /**
-   * Do some minor translation of the exposed input
+   * Do some minor translation of the exposed input.
    */
   function accept_exposed_input($input) {
     if (empty($this->options['exposed'])) {
       return TRUE;
     }
 
-    // rewrite the input value so that it's in the correct format so that
+    // Rewrite the input value so that it's in the correct format so that
     // the parent gets the right data.
     if (!empty($this->options['expose']['identifier'])) {
       $value = &$input[$this->options['expose']['identifier']];
@@ -235,6 +220,7 @@ class google_analytics_handler_filter_numeric extends views_handler_filter {
               return FALSE;
             }
             break;
+
           case 2:
             if ($value['min'] === '' && $value['max'] === '') {
               return FALSE;

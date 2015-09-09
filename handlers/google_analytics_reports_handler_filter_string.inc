@@ -1,13 +1,16 @@
 <?php
 
 /**
+ * @file
+ * Definition of google_analytics_reports_handler_filter_string.
+ */
+
+/**
  * Basic textfield filter to handle string filtering commands.
  *
  * @ingroup views_filter_handlers
  */
-class google_analytics_handler_filter_string extends views_handler_filter {
-  // exposed filter options
-  var $always_multiple = TRUE;
+class google_analytics_reports_handler_filter_string extends google_analytics_reports_handler_filter {
 
   function option_definition() {
     $options = parent::option_definition();
@@ -59,22 +62,10 @@ class google_analytics_handler_filter_string extends views_handler_filter {
         'short' => t('!regex'),
         'method' => 'op_not_regex',
         'values' => 1,
-      )
+      ),
     );
 
     return $operators;
-  }
-
-  /**
-   * Build strings from the operators() for 'select' options
-   */
-  function operator_options($which = 'title') {
-    $options = array();
-    foreach ($this->operators() as $id => $info) {
-      $options[$id] = $info[$which];
-    }
-
-    return $options;
   }
 
   function admin_summary() {
@@ -84,7 +75,7 @@ class google_analytics_handler_filter_string extends views_handler_filter {
 
     $options = $this->operator_options('short');
     $output = '';
-    if(!empty($options[$this->operator])) {
+    if (!empty($options[$this->operator])) {
       $output = check_plain($options[$this->operator]);
     }
     if (in_array($this->operator, $this->operator_values(1))) {
@@ -105,7 +96,7 @@ class google_analytics_handler_filter_string extends views_handler_filter {
   }
 
   /**
-   * Provide a simple textfield for equality
+   * Provide a simple textfield for equality.
    */
   function value_form(&$form, &$form_state) {
     // We have to make some choices when creating this as an exposed
@@ -120,7 +111,7 @@ class google_analytics_handler_filter_string extends views_handler_filter {
       $identifier = $this->options['expose']['identifier'];
 
       if (empty($this->options['expose']['use_operator']) || empty($this->options['expose']['operator_id'])) {
-        // exposed and locked.
+        // Exposed and locked.
         $which = in_array($this->operator, $this->operator_values(1)) ? 'value' : 'none';
       }
       else {
@@ -150,15 +141,8 @@ class google_analytics_handler_filter_string extends views_handler_filter {
       // Ensure there is something in the 'value'.
       $form['value'] = array(
         '#type' => 'value',
-        '#value' => NULL
+        '#value' => NULL,
       );
-    }
-  }
-
-  function query() {
-    $info = $this->operators();
-    if (!empty($info[$this->operator]['method'])) {
-      $this->{$info[$this->operator]['method']}($this->real_field);
     }
   }
 
