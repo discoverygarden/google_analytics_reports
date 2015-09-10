@@ -175,8 +175,6 @@ class google_analytics_reports_plugin_query_google_analytics extends views_plugi
           $glue = ($where['type'] == 'AND') ? ';' : ',';
           $filters[$where_group] = implode($glue, $filters[$where_group]);
         }
-        $glue = ($where['type'] == 'AND') ? ';' : ',';
-        $filters[$where_group] = implode($glue, $filters[$where_group]);
       }
     }
 
